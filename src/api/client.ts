@@ -62,7 +62,7 @@ export async function request<T>(path: string, options: RequestInit = {}): Promi
       headers,
     });
   } catch {
-    throw new Error(`Cannot reach the server at ${API_URL}. Make sure the API is running and this browser can access it.`);
+    throw new Error(`Cannot reach the API at ${API_URL}. Make sure it is running, allows this frontend through CORS, and is reachable from this device. Configure its address with VITE_API_URL in the frontend .env file, then restart Vite.`);
   }
   const body = await response.json().catch(() => ({}));
   if (response.status === 401 && new Headers(options.headers).has('Authorization')) {

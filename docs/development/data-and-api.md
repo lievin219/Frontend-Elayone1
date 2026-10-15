@@ -31,10 +31,13 @@ secrets in frontend variables.
 
 ## Local development
 
-Run `npm run server:dev` and `npm start` in separate terminals. The API reads
-its environment from `server/.env`; start it through the repository script so
-the server process loads that configuration. The frontend uses
-`VITE_API_URL`, defaulting to `http://localhost:4000`.
+This checkout contains the frontend only; the backend source and server scripts
+described above are not included here. Start or deploy the API separately, then
+set `VITE_API_URL` in the frontend `.env` to its base URL. The default is
+`http://localhost:4000`, which is reachable only if the API is running on the
+same computer as the browser. A remote browser/device needs a reachable API
+hostname instead of `localhost`. The API must also allow the frontend origin
+through CORS. Restart Vite after changing the frontend `.env`.
 
 ## Validation
 

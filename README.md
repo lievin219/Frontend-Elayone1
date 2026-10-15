@@ -1,36 +1,32 @@
-# Frontend
+# Elayone frontend
 
-This is a standard React + TypeScript web app built with Vite. It does not use Expo or React Native.
+This repository contains the React + TypeScript frontend. It does **not** include
+the backend API. The app needs a separately running or deployed API; cloning and
+starting this frontend alone will not start a server on port 4000.
 
 ## Run locally
 
-From the repository root:
+1. Install dependencies with `npm install`.
+2. Copy `.env.example` to `.env` and set `VITE_API_URL` to the API's base URL.
+	The default `http://localhost:4000` works only when the API is running on the
+	same computer as the browser. For a remote API, use its reachable URL (for
+	example, `https://api.example.com`), not `localhost`.
+3. Start the frontend with `npm run start` and open the URL Vite prints (normally
+	`http://localhost:5173`).
 
-```bash
-npm install --prefix frontend
-npm install --prefix server
-npm start
-```
+The API must allow browser requests from the frontend origin (CORS). If the API
+is not available, sign-in and data-loading requests will show a connection
+error. Restart Vite after changing `.env` because Vite reads environment
+variables at startup. Never put database credentials or backend service keys in
+this frontend's environment variables.
 
-The Vite development server prints its local URL (normally `http://localhost:5173`). The backend API should be running separately with `npm run server`.
+## Build
 
-Copy `.env.example` to `.env` if the API is not at `http://localhost:4000`, then set `VITE_API_URL`.
+Run `npm run build` to typecheck and create the production web bundle. Set
+`VITE_API_URL` in the frontend deployment environment to the public API URL
+before building.
 
-## Structure
+## Project guides
 
-- `src/main.tsx` — browser entry point.
-- `src/App.tsx` — app entry and sign-in/authenticated routing.
-- `src/features/app/` — session, ministry data, navigation, dashboard state, notifications, and shared app shell.
-- `src/features/app/AppPageContent.tsx` — maps the active tab to its feature screen and wires screen actions.
-- `src/features/` — authentication, home, calendar, reports, administration, and profile screens.
-- `src/components/` — shared ministry views and browser UI primitives.
-- `src/api.ts` — typed API client and browser session storage.
-- `src/theme.ts` and `src/styles.css` — shared design tokens, styles, and responsive layout.
-
-See the repository [developer guide](../DEVELOPMENT.md) for links to individual
-screen/function guides. For the dashboard, start with the
-[dashboard guide](../docs/development/dashboard.md) and
-`src/features/HomeDashboard.tsx`.
-
-Run `npm run build` in this directory to typecheck and create the production web bundle.
-# Frontend-Elayone1
+See [the developer guides](docs/development/) for API/data-flow and feature
+documentation.
