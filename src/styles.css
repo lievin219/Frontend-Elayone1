@@ -1579,6 +1579,18 @@ img {
   font-size: 10px;
 }
 
+.song-create-help {
+  display: block;
+  padding: 11px 13px;
+  border: 1px solid rgba(112, 185, 255, 0.18);
+  border-radius: 10px;
+  margin: 0 0 15px;
+  background: linear-gradient(145deg, rgba(45, 88, 126, 0.17), rgba(255, 255, 255, 0.025));
+  color: #bdcbd6;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
 .song-row > button {
   width: 40px;
   height: 40px;

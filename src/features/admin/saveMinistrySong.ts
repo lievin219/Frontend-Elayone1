@@ -9,7 +9,6 @@ type Input = { title: string; key: string; previewUrl: string; media: File | nul
 export async function saveMinistrySong(input: Input) {
   const { title, key, previewUrl, media, status, notes, setNotice, setBusy, onAdded, clear } = input;
   if (!title.trim()) return setNotice({ type: 'error', text: 'Add a song title before saving it.' });
-  if (!media && !previewUrl.trim()) return setNotice({ type: 'error', text: 'Attach an MP3 or MP4 file, or provide a preview URL.' });
   if (!media && previewUrl.trim()) {
     try { new URL(previewUrl.trim()); }
     catch { return setNotice({ type: 'error', text: 'Enter a valid preview URL, or leave it empty.' }); }
