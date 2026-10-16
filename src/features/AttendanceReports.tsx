@@ -150,7 +150,7 @@ export function AttendanceReportScreen({ canManage }: { canManage: boolean }) {
 }
 
 export function ReportMetric({ value, label }: { value: string; label: string }) {
-  return <Box className="report-metric" style={styles.reportMetric}><Label style={styles.reportMetricValue}>{value}</Label><Label style={styles.reportMetricLabel}>{label}</Label></Box>;
+  return <Box className="report-metric" style={styles.reportMetric}><Label style={styles.reportMetricValue}>{value}</Label><Label className="report-metric-label" style={styles.reportMetricLabel}>{label}</Label></Box>;
 }
 
 export function StatusDistribution({ counts }: { counts: Record<AttendanceResponseStatus, number> }) {

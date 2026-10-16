@@ -13,9 +13,9 @@ type CalendarPageHeadingProps = {
 export function CalendarPageHeading({ canManage, showCreateForm, refreshing, lastCheckedAt, onRefresh, onToggleCreate }: CalendarPageHeadingProps) {
   return (
     <>
-      <Label style={styles.calendarPageEyebrow}>ELAYONE / SCHEDULE</Label>
-      <Label style={styles.calendarPageTitle}>Ministry calendar</Label>
-      <Label style={styles.calendarPageCaption}>{canManage ? 'Add events, choose songs, and see who can attend.' : 'See your events and reply with your availability.'}</Label>
+      <Label className="responsive-eyebrow" style={styles.calendarPageEyebrow}>ELAYONE / SCHEDULE</Label>
+      <Label className="responsive-page-title" style={styles.calendarPageTitle}>Ministry calendar</Label>
+      <Label className="responsive-body-copy" style={styles.calendarPageCaption}>{canManage ? 'Add events, choose songs, and see who can attend.' : 'See your events and reply with your availability.'}</Label>
       {canManage && <Box style={[styles.calendarResponseHeader, styles.calendarDarkResponseHeader]}>
         <Label style={styles.calendarResponseHeaderText}>Responses update automatically · checked {lastCheckedAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Label>
         <ActionButton style={[styles.calendarRefreshButton, styles.calendarDarkRefreshButton]} onPress={onRefresh} disabled={refreshing} accessibilityLabel="Refresh event responses">

@@ -95,7 +95,7 @@ body,
     padding: 19px !important;
   }
 
-  .calendarPage {
+  .calendar-page {
     padding: 14px !important;
   }
 
@@ -2456,7 +2456,7 @@ img {
   }
 
   .home-dashboard-page,
-  .calendarPage,
+  .calendar-page,
   .profile-page,
   .song-library,
   .report-dashboard {
@@ -2467,7 +2467,7 @@ img {
 
   .pageTitle,
   .report-hero-title,
-  .calendarPageTitle {
+  .calendar-page .responsive-page-title {
     font-size: clamp(29px, 8vw, 38px) !important;
     line-height: 1.12 !important;
     overflow-wrap: anywhere;
@@ -2475,7 +2475,7 @@ img {
 
   .pageCaption,
   .report-hero-caption,
-  .calendarPageCaption {
+  .calendar-page .responsive-body-copy {
     font-size: 13px !important;
     line-height: 1.55 !important;
   }
@@ -2512,49 +2512,49 @@ img {
     overflow-wrap: anywhere;
   }
 
-  .calendarPage {
+  .calendar-page {
     padding: clamp(12px, 4vw, 20px) !important;
     border-radius: 16px;
   }
 
-  .calendarPage .calendar-hero {
+  .calendar-page .calendar-hero {
     padding: clamp(15px, 4.5vw, 22px) !important;
     margin-bottom: 16px !important;
   }
 
-  .calendarPage .calendar-hero-title {
+  .calendar-page .calendar-hero-title {
     font-size: clamp(26px, 8vw, 32px) !important;
     line-height: 1.15;
     overflow-wrap: anywhere;
   }
 
-  .calendarPage .calendar-card,
-  .calendarPage .calendar-create-form {
+  .calendar-page .calendar-card,
+  .calendar-page .calendar-create-form {
     padding: clamp(12px, 4vw, 17px) !important;
   }
 
-  .calendarPage .calendar-month-header,
-  .calendarPage .calendar-list-header,
-  .calendarPage .calendar-response-header {
+  .calendar-page .calendar-month-header,
+  .calendar-page .calendar-list-header,
+  .calendar-page .calendar-response-header {
     flex-wrap: wrap;
   }
 
-  .calendarPage .calendar-month-title {
+  .calendar-page .calendar-month-title {
     font-size: clamp(16px, 5vw, 19px) !important;
     text-align: center;
   }
 
-  .calendarPage .calendar-day-cell,
-  .calendarPage .calendar-blank-cell {
+  .calendar-page .calendar-day-cell,
+  .calendar-page .calendar-blank-cell {
     min-height: 40px !important;
     height: 42px !important;
   }
 
-  .calendarPage .calendar-response-buttons {
+  .calendar-page .calendar-response-buttons {
     flex-wrap: wrap;
   }
 
-  .calendarPage .calendar-response-button {
+  .calendar-page .calendar-response-button {
     min-width: 88px;
   }
 
@@ -2664,12 +2664,12 @@ img {
     margin-left: -12px !important;
   }
 
-  .brandName {
+  .brand-name {
     font-size: 11px !important;
     letter-spacing: 1.1px !important;
   }
 
-  .brandSub {
+  .brand-sub {
     font-size: 7px !important;
     letter-spacing: 0.8px !important;
   }
@@ -2678,7 +2678,7 @@ img {
     padding: 11px !important;
   }
 
-  .calendarPage .calendar-weekday {
+  .calendar-page .calendar-weekday-label {
     font-size: 8px !important;
   }
 
@@ -2726,6 +2726,282 @@ img {
 @media (max-width: 899px) {
   .authenticated-scroll-area > div {
     padding-bottom: max(112px, calc(88px + env(safe-area-inset-bottom))) !important;
+  }
+}
+
+@media (max-width: 899px) {
+  .responsive-page-title {
+    font-size: clamp(30px, 8vw, 38px) !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.04em;
+    overflow-wrap: anywhere;
+  }
+
+  .responsive-section-title {
+    font-size: clamp(22px, 6vw, 30px) !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+  }
+
+  .responsive-body-copy {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    color: #c4cbd1 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .responsive-eyebrow {
+    font-size: 10px !important;
+    line-height: 1.45 !important;
+    letter-spacing: 0.1em !important;
+    color: #c5d1d5 !important;
+  }
+
+  .auth-screen .auth-card {
+    padding: 26px clamp(18px, 6vw, 28px) 24px !important;
+    border-radius: 22px;
+  }
+
+  .auth-screen .auth-title {
+    font-size: clamp(34px, 9vw, 42px) !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.035em;
+  }
+
+  .auth-screen .auth-brand-sub,
+  .auth-screen .auth-feature-verse-reference {
+    font-size: 10px !important;
+    line-height: 1.5 !important;
+    letter-spacing: 0.12em !important;
+  }
+
+  .auth-screen .auth-feature-verse-text {
+    font-size: 13px !important;
+    line-height: 1.65 !important;
+  }
+
+  .auth-screen .field-label {
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+    letter-spacing: 0.09em !important;
+  }
+
+  .auth-screen .field input {
+    min-height: 52px;
+    font-size: 16px !important;
+  }
+
+  .auth-screen .auth-button span {
+    font-size: 15px !important;
+  }
+
+  .auth-screen .auth-account-help {
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+  }
+
+  .home-dashboard-page .home-hero > span:nth-of-type(1) {
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  .home-dashboard-page .home-hero-title {
+    font-size: clamp(28px, 7.8vw, 36px) !important;
+    line-height: 1.18 !important;
+    letter-spacing: -0.035em;
+  }
+
+  .home-dashboard-page .home-scripture-text,
+  .home-dashboard-page .home-update-message,
+  .home-dashboard-page .home-no-updates {
+    font-size: 13px !important;
+    line-height: 1.65 !important;
+  }
+
+  .home-dashboard-page .home-updates-eyebrow,
+  .home-dashboard-page .home-update-priority,
+  .home-dashboard-page .home-update-date,
+  .home-dashboard-page .home-updated-at {
+    font-size: 10px !important;
+    line-height: 1.5 !important;
+    letter-spacing: 0.06em;
+  }
+
+  .home-dashboard-page .home-update-title {
+    font-size: 15px !important;
+    line-height: 1.45 !important;
+  }
+
+  .home-dashboard-page .home-week-metric .responsive-eyebrow {
+    font-size: 10px !important;
+    letter-spacing: 0.045em !important;
+    overflow-wrap: anywhere;
+  }
+
+  .home-dashboard-page .metric-foot {
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+  }
+
+  .home-dashboard-page .home-section-header .seeAll,
+  .home-dashboard-page .home-updates-link {
+    font-size: 12px !important;
+  }
+
+  .calendar-weekday-label {
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+  }
+
+  .calendar-date-caption {
+    font-size: 9px !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.035em;
+  }
+
+  .calendar-event-meta,
+  .calendar-page .calendar-event-meta {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .calendar-page .calendar-response-header span,
+  .calendar-page .calendar-dark-prompt,
+  .calendar-page .calendar-dark-event-meta,
+  .calendar-page .calendar-dark-admin-summary-text {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+  }
+
+  .admin-form .field-label,
+  .admin-form .admin-help,
+  .admin-form .admin-announcement-meta {
+    font-size: 12px !important;
+    line-height: 1.55 !important;
+  }
+
+  .admin-form .admin-form-title,
+  .admin-form .responsive-section-title {
+    font-size: 19px !important;
+    line-height: 1.3 !important;
+  }
+
+  .admin-form .small-action-text,
+  .admin-form .small-secondary-action-text {
+    font-size: 11px !important;
+    line-height: 1.35 !important;
+  }
+
+  .report-dashboard .report-metric-label,
+  .report-dashboard .report-legend-text,
+  .report-dashboard .report-event-type,
+  .report-dashboard .report-available,
+  .report-dashboard .report-maybe,
+  .report-dashboard .report-unavailable,
+  .report-dashboard .report-pending,
+  .report-dashboard .report-pill-text {
+    font-size: 10px !important;
+    line-height: 1.4 !important;
+    letter-spacing: 0.025em;
+  }
+
+  .report-dashboard .report-event-meta,
+  .report-dashboard .report-member-meta,
+  .report-dashboard .report-card-caption,
+  .report-dashboard .report-hint,
+  .report-dashboard .report-empty-text {
+    font-size: 12px !important;
+    line-height: 1.55 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .report-dashboard .report-card-title,
+  .report-dashboard .report-section-title,
+  .report-dashboard .report-member-name,
+  .report-dashboard .report-event-title {
+    font-size: 16px !important;
+    line-height: 1.35 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .report-dashboard .report-section-meta,
+  .report-dashboard .report-generated {
+    font-size: 11px !important;
+    line-height: 1.45 !important;
+  }
+
+  .song-library .song-library-intro-caption {
+    font-size: 13px !important;
+    line-height: 1.55 !important;
+  }
+
+  .song-library .song-library-summary {
+    font-size: 10px !important;
+    line-height: 1.5 !important;
+    letter-spacing: 0.045em;
+  }
+
+  .song-library .song-title {
+    display: block;
+    overflow: visible;
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    text-overflow: clip;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .song-library .song-meta {
+    font-size: 12px !important;
+    line-height: 1.45 !important;
+  }
+
+  .profile-name {
+    font-size: 21px !important;
+    line-height: 1.25 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .profile-email,
+  .profile-detail-value,
+  .profile-attendance-state {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .profile-detail-label,
+  .profile-attendance-label,
+  .profile-section-kicker {
+    font-size: 10px !important;
+    line-height: 1.45 !important;
+    letter-spacing: 0.07em;
+  }
+
+  .mobile-navigation-label {
+    font-size: 10px !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 389px) {
+  .responsive-body-copy {
+    font-size: 13px !important;
+  }
+
+  .responsive-page-title {
+    font-size: clamp(28px, 9vw, 34px) !important;
+  }
+
+  .mobile-navigation-label {
+    font-size: 9px !important;
   }
 }
 
@@ -2808,4 +3084,60 @@ img {
 .notification-card .notification-title {
   line-height: 1.3;
   overflow-wrap: anywhere;
+}
+
+.ministry-background .app-topbar .sign-out-button {
+  width: auto !important;
+  min-width: 92px;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 7px;
+  padding: 0 12px;
+  border: 1px solid rgba(98, 150, 190, 0.3) !important;
+  border-radius: 13px;
+  margin-left: 8px;
+  background: linear-gradient(145deg, rgba(40, 69, 96, 0.45), rgba(24, 39, 55, 0.72)) !important;
+  color: #c1d3e1 !important;
+}
+
+.ministry-background .app-topbar .sign-out-button:hover:not(:disabled) {
+  border-color: rgba(122, 181, 225, 0.58) !important;
+  background: linear-gradient(145deg, rgba(48, 88, 125, 0.6), rgba(28, 51, 73, 0.85)) !important;
+}
+
+.ministry-background .app-topbar .sign-out-button svg {
+  flex: 0 0 auto;
+  color: #a9c9e2 !important;
+  stroke: #a9c9e2 !important;
+}
+
+.sign-out-label {
+  color: #c1d3e1 !important;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+@media (max-width: 899px) {
+  .ministry-background .app-topbar .sign-out-button {
+    min-width: 84px;
+    min-height: 42px !important;
+    padding: 0 9px;
+    margin-left: 6px;
+  }
+
+  .sign-out-label {
+    font-size: 10px;
+  }
+
+  .app-topbar .brand-copy {
+    min-width: 0;
+  }
+
+  .brand-name,
+  .brand-sub {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }

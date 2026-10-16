@@ -16,8 +16,8 @@ export function HomeWeeklySummary({
     <>
       <Box className="home-section-header" style={styles.sectionHeader}>
         <Box>
-          <Label style={styles.sectionTitle}>This week</Label>
-          <Label style={styles.sectionCaption}>Your week at a glance</Label>
+          <Label className="responsive-section-title" style={styles.sectionTitle}>This week</Label>
+          <Label className="responsive-body-copy" style={styles.sectionCaption}>Your week at a glance</Label>
         </Box>
         <ActionButton onPress={onOpenCalendar}><Label style={styles.seeAll}>See all</Label></ActionButton>
       </Box>
@@ -41,9 +41,9 @@ function WeeklyMetric({ number, label, foot, color, percent = false }: {
       <Label style={styles.metricNumber}>
         {number}{percent && <Label style={styles.metricPercent}>%</Label>}
       </Label>
-      <Label style={styles.metricLabel}>{label}</Label>
+      <Label className="responsive-eyebrow" style={styles.metricLabel}>{label}</Label>
       <Box style={[styles.metricRule, color ? { backgroundColor: color } : undefined]} />
-      <Label style={styles.metricFoot}>{foot}</Label>
+      <Label className="metric-foot" style={styles.metricFoot}>{foot}</Label>
     </Box>
   );
 }

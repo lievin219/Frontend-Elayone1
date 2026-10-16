@@ -36,9 +36,9 @@ export function AdminPanel(props: AdminPanelProps) {
 
 function AdminHeading() {
   return <>
-    <Label style={styles.pageEyebrow}>ELAYONE / ADMIN</Label>
-    <Label style={styles.pageTitle}>Lead the ministry</Label>
-    <Label style={styles.pageCaption}>Manage accounts, events, songs, and updates.</Label>
+    <Label className="responsive-eyebrow" style={styles.pageEyebrow}>ELAYONE / ADMIN</Label>
+    <Label className="responsive-page-title" style={styles.pageTitle}>Lead the ministry</Label>
+    <Label className="responsive-body-copy" style={styles.pageCaption}>Manage accounts, events, songs, and updates.</Label>
     <Box style={styles.adminNotice}>
       <Icon name="shield-checkmark-outline" size={20} color={COLORS.olive} />
       <Box style={{ flex: 1 }}>

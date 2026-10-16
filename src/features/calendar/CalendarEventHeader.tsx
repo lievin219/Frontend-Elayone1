@@ -16,13 +16,13 @@ export function CalendarEventHeader({ event, response }: Pick<CalendarEventCardP
   return (
     <Box style={styles.calendarEventCardTop}>
       <Box style={[styles.calendarDateBadge, styles.calendarDarkDateBadge]}>
-        <Label style={[styles.calendarDateDay, styles.calendarDarkDateText]}>{start.toLocaleDateString(undefined, { weekday: 'short' }).toUpperCase()}</Label>
+        <Label className="calendar-date-caption" style={[styles.calendarDateDay, styles.calendarDarkDateText]}>{start.toLocaleDateString(undefined, { weekday: 'short' }).toUpperCase()}</Label>
         <Label style={[styles.calendarDateNumber, styles.calendarDarkDateText]}>{start.getDate()}</Label>
-        <Label style={[styles.calendarDateMonth, styles.calendarDarkDateText]}>{start.toLocaleDateString(undefined, { month: 'short' }).toUpperCase()}</Label>
+        <Label className="calendar-date-caption" style={[styles.calendarDateMonth, styles.calendarDarkDateText]}>{start.toLocaleDateString(undefined, { month: 'short' }).toUpperCase()}</Label>
       </Box>
       <Box style={{ flex: 1 }}>
         <Label style={[styles.calendarEventTitle, styles.calendarDarkEventTitle]}>{event.title}</Label>
-        <Label style={[styles.calendarEventMeta, styles.calendarDarkEventMeta]}>{start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}–{end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} · {event.location}</Label>
+        <Label className="calendar-event-meta" style={[styles.calendarEventMeta, styles.calendarDarkEventMeta]}>{start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}–{end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} · {event.location}</Label>
         <Label style={[styles.calendarEventType, styles.calendarDarkEventType]}>{(event.eventTypeName ?? event.eventType ?? 'REHEARSAL').replace('_', ' ')} · {event.invitationOnly ? 'PERSONAL INVITE' : 'WHOLE MINISTRY'}</Label>
       </Box>
       <Box style={[styles.reportPill, responseStyles[response]]}>

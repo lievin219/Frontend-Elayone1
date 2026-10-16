@@ -23,17 +23,17 @@ export function HomeHero({
           <Icon name="cross-outline" size={19} color="#ffffff" />
           <Box className="home-brand-music-note" />
         </Box>
-        <Label style={styles.homeHeroKicker}>A NEW SEASON OF GRACE</Label>
+        <Label className="responsive-eyebrow" style={styles.homeHeroKicker}>A NEW SEASON OF GRACE</Label>
       </Box>
       <Label style={styles.eyebrow}>
         {formattedDate.toUpperCase()} • {formattedTime}
       </Label>
-      <Label style={[styles.heroTitle, isCompact && styles.mobileHeroTitle]}>
+      <Label className="home-hero-title responsive-section-title" style={[styles.heroTitle, isCompact && styles.mobileHeroTitle]}>
         Welcome, {welcomeName}.{`\n`}Here’s what’s happening.
       </Label>
-      <Box style={styles.homeScripture}>
+      <Box className="home-scripture" style={styles.homeScripture}>
         <Icon name="book-outline" size={17} color="#dedede" />
-        <Label style={styles.homeScriptureText}>{dailyVerse}</Label>
+        <Label className="home-scripture-text" style={styles.homeScriptureText}>{dailyVerse}</Label>
       </Box>
     </Box>
   );

@@ -14,8 +14,8 @@ export function NotificationsPanel({ announcements, reminders, onClose }: Notifi
     <Box className="notifications-panel" style={styles.notificationsPanel}>
       <Box style={styles.notificationsHeader}>
         <Box>
-          <Label style={styles.pageEyebrow}>ELAYONE / ALERTS</Label>
-          <Label style={styles.pageTitle}>Notifications</Label>
+          <Label className="responsive-eyebrow" style={styles.pageEyebrow}>ELAYONE / ALERTS</Label>
+          <Label className="responsive-page-title" style={styles.pageTitle}>Notifications</Label>
         </Box>
         <ActionButton onPress={onClose} style={styles.closeButton}>
           <Icon name="close" size={18} color={COLORS.ink} />

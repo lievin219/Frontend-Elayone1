@@ -26,7 +26,7 @@ export function CalendarPage(props: CalendarScreenProps) {
   const nextEvent = upcomingEvents[0] ?? null;
 
   return (
-    <Box style={styles.calendarPage}>
+    <Box className="calendar-page" style={styles.calendarPage}>
       <CalendarHero nextEvent={nextEvent} canManage={props.canManage} onShowEvent={navigation.showEventDate} />
       <CalendarPageHeading canManage={props.canManage} showCreateForm={showCreateForm} refreshing={refresh.refreshing} lastCheckedAt={refresh.lastCheckedAt} onRefresh={refresh.refreshNow} onToggleCreate={() => setShowCreateForm((visible) => !visible)} />
       {props.canManage && showCreateForm && <CalendarCreateEventForm songs={props.songs} onCreated={props.onEventCreated} onNotice={notify} onClose={() => setShowCreateForm(false)} />}

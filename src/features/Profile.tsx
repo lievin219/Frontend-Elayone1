@@ -19,9 +19,9 @@ type ProfileProps = {
 export function Profile({ memberName, email, role, team, availability, memberUserId }: ProfileProps) {
   return (
     <Box className="profile-page">
-      <Label style={styles.pageEyebrow}>ELAYONE / PROFILE</Label>
-      <Label style={styles.pageTitle}>Your profile</Label>
-      <Label style={styles.pageCaption}>Your account, team, and attendance.</Label>
+      <Label className="responsive-eyebrow" style={styles.pageEyebrow}>ELAYONE / PROFILE</Label>
+      <Label className="responsive-page-title" style={styles.pageTitle}>Your profile</Label>
+      <Label className="responsive-body-copy" style={styles.pageCaption}>Your account, team, and attendance.</Label>
       <ProfileOverview
         memberName={memberName}
         email={email}
