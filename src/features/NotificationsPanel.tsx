@@ -11,7 +11,7 @@ type NotificationsPanelProps = {
 
 export function NotificationsPanel({ announcements, reminders, onClose }: NotificationsPanelProps) {
   return (
-    <Box style={styles.notificationsPanel}>
+    <Box className="notifications-panel" style={styles.notificationsPanel}>
       <Box style={styles.notificationsHeader}>
         <Box>
           <Label style={styles.pageEyebrow}>ELAYONE / ALERTS</Label>
@@ -28,7 +28,7 @@ export function NotificationsPanel({ announcements, reminders, onClose }: Notifi
           <Label style={styles.emptyStateText}>New event reminders and ministry updates will appear here.</Label>
         </Box>
         : <>
-          {reminders.map((item) => <Box key={item.id} style={styles.notificationCard}>
+          {reminders.map((item) => <Box key={item.id} className={`notification-card notification-card-reminder${item.priority === 'IMPORTANT' ? ' is-important' : ''}`} style={styles.notificationCard}>
             <Box style={styles.notificationTop}>
               <Label style={styles.notificationLabel}>{item.priority === 'IMPORTANT' ? 'ACTION NEEDED' : 'REMINDER'}</Label>
               <Label style={styles.notificationTime}>{new Date(item.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</Label>
@@ -40,7 +40,7 @@ export function NotificationsPanel({ announcements, reminders, onClose }: Notifi
             </Box>
             <Label style={styles.notificationMessage}>{item.message}</Label>
           </Box>)}
-          {announcements.map((item) => <Box key={item.id} style={styles.notificationCard}>
+          {announcements.map((item) => <Box key={item.id} className={`notification-card notification-card-announcement${item.priority === 'IMPORTANT' ? ' is-important' : ''}`} style={styles.notificationCard}>
             <Box style={styles.notificationTop}>
               <Label style={styles.notificationLabel}>{item.priority === 'IMPORTANT' ? 'IMPORTANT' : 'UPDATE'}</Label>
               <Label style={styles.notificationTime}>{new Date(item.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</Label>
