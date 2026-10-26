@@ -10,17 +10,32 @@ type User = Management['users'][number];
 export function MemberRow({ user, management: m }: { user: User; management: Management }) {
   const protectedAdmin = user.role === 'ADMIN';
   const team = user.memberships.find((membership) => membership.choirId === 'elayone-main-choir');
-  return <Box style={styles.directoryRow}>
-    <Box style={styles.directoryAvatar}><Label style={styles.directoryInitial}>{user.name.slice(0, 1).toUpperCase()}</Label></Box>
-    <Box style={styles.personInfo}>
-      <Label style={styles.personName}>{user.name}</Label><Label style={styles.personRole}>{user.email}</Label>
-      <Label style={styles.directoryMeta}>{getRoleName(user.role)} · {user.memberships.length} ministry membership{user.memberships.length === 1 ? '' : 's'}</Label>
-      {team && <MemberTeamSelect label={`${user.name}'s team`} value={team.ministryTeam ?? 'SINGERS'} onChange={(v) => m.changeMemberTeam(user.id, v)} disabled={m.teamUpdatingUserId === user.id} />}
-      {m.resetUserId === user.id && <Box style={styles.resetPasswordBox}>
+  const initials = user.name.trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase();
+  return <Box className={`admin-member-card admin-member-${user.role.toLowerCase()}`} style={styles.directoryRow}>
+    <Box className={`admin-member-avatar admin-member-avatar-${user.role.toLowerCase()}`}><Label>{initials || '?'}</Label></Box>
+    <Box className="admin-member-info" style={styles.personInfo}>
+      <Box className="admin-member-heading">
+        <Label className="admin-member-name" style={styles.personName}>{user.name}</Label>
+        <Label className={`admin-role-badge admin-role-badge-${user.role.toLowerCase()}`}>{getRoleName(user.role)}</Label>
+        {team && <Label className={`admin-team-badge admin-team-badge-${(team.ministryTeam ?? 'SINGERS').toLowerCase()}`}>
+          {team.ministryTeam === 'BAND' ? 'BAND' : 'SINGERS'}
+        </Label>}
+      </Box>
+      <Label className="admin-member-email" style={styles.personRole}>{user.email}</Label>
+      <Label className="admin-member-meta" style={styles.directoryMeta}>{team ? 'Elayone Music Ministry' : `${user.memberships.length} ministry membership${user.memberships.length === 1 ? '' : 's'}`}</Label>
+      {team && <MemberTeamSelect presentation="switch" label={`${user.name}'s team`} value={team.ministryTeam ?? 'SINGERS'} onChange={(v) => m.changeMemberTeam(user.id, v)} disabled={m.teamUpdatingUserId === user.id} />}
+      {m.resetUserId === user.id && <Box className="admin-password-reset" style={styles.resetPasswordBox}>
+        <Box className="admin-password-reset-heading">
+          <Box className="admin-password-reset-icon"><Icon name="key-outline" size={15} color="#d8bd83" /></Box>
+          <Box>
+            <Label className="admin-password-reset-title">Set a new password</Label>
+            <Label className="admin-password-reset-hint">Use at least 8 characters</Label>
+          </Box>
+        </Box>
         <TextField value={m.resetPassword} onChangeText={m.setResetPassword} placeholder="New password (8+ characters)" placeholderTextColor={COLORS.muted} secureTextEntry style={styles.resetPasswordInput} />
-        <Box style={styles.resetPasswordActions}>
-          <ActionButton onPress={() => { m.setResetUserId(null); m.setResetPassword(''); }}><Label style={styles.smallSecondaryActionText}>Cancel</Label></ActionButton>
-          <ActionButton style={styles.smallActionButton} onPress={() => m.resetPasswordForUser(user)} disabled={m.busy}><Label style={styles.smallActionText}>{m.busy ? 'Saving...' : 'Save password'}</Label></ActionButton>
+        <Box className="admin-password-reset-actions" style={styles.resetPasswordActions}>
+          <ActionButton className="admin-password-cancel" onPress={() => { m.setResetUserId(null); m.setResetPassword(''); }}><Label>Cancel</Label></ActionButton>
+          <ActionButton className="admin-password-save" onPress={() => m.resetPasswordForUser(user)} disabled={m.busy}><Icon name="checkmark-circle" size={15} color="#10271e" /><Label>{m.busy ? 'Saving...' : 'Save new password'}</Label></ActionButton>
         </Box>
       </Box>}
     </Box>
@@ -33,12 +48,14 @@ function MemberRoleActions({ user, management: m, protectedAdmin }: {
   management: Management;
   protectedAdmin: boolean;
 }) {
-  return <Box style={styles.roleActions}>
-    {user.role !== 'ADMIN' && <ActionButton style={styles.smallActionButton} onPress={() => m.changeRole(user.id, 'ADMIN')}><Label style={styles.smallActionText}>Make admin</Label></ActionButton>}
-    {!protectedAdmin && user.role !== 'MEMBER' && <ActionButton style={styles.smallSecondaryActionButton} onPress={() => m.changeRole(user.id, 'MEMBER')}><Label style={styles.smallSecondaryActionText}>Member</Label></ActionButton>}
-    {!protectedAdmin && <ActionButton style={styles.removeIconButton} onPress={() => m.removeMember(user.id)} accessibilityLabel={`Remove ${user.name}`}><Icon name="person-remove-outline" size={17} color={COLORS.clay} /></ActionButton>}
-    <ActionButton style={styles.smallSecondaryActionButton} onPress={() => { m.setResetUserId(m.resetUserId === user.id ? null : user.id); m.setResetPassword(''); }}>
-      <Label style={styles.smallSecondaryActionText}>{m.resetUserId === user.id ? 'Close reset' : 'Reset password'}</Label>
+  return <Box className="admin-member-actions" style={styles.roleActions}>
+    <Label className="admin-member-actions-label">ACCOUNT ACTIONS</Label>
+    {user.role !== 'ADMIN' && <ActionButton className="admin-role-promote" style={styles.smallActionButton} onPress={() => m.changeRole(user.id, 'ADMIN')}><Icon name="shield-checkmark-outline" size={15} color="#293b66" /><Label>Make admin</Label></ActionButton>}
+    {!protectedAdmin && user.role !== 'MEMBER' && <ActionButton className="admin-role-demote" style={styles.smallSecondaryActionButton} onPress={() => m.changeRole(user.id, 'MEMBER')}><Icon name="person-outline" size={15} color="#526c84" /><Label>Set as member</Label></ActionButton>}
+    {!protectedAdmin && <ActionButton className="admin-member-remove" style={styles.removeIconButton} onPress={() => m.removeMember(user.id)} accessibilityLabel={`Remove ${user.name}`}><Icon name="person-remove-outline" size={17} color={COLORS.clay} /><Label>Remove</Label></ActionButton>}
+    <ActionButton className="admin-password-toggle" style={styles.smallSecondaryActionButton} onPress={() => { m.setResetUserId(m.resetUserId === user.id ? null : user.id); m.setResetPassword(''); }}>
+      <Icon name="key-outline" size={15} color="#855a25" />
+      <Label>{m.resetUserId === user.id ? 'Close password reset' : 'Reset password'}</Label>
     </ActionButton>
   </Box>;
 }

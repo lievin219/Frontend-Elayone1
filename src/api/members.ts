@@ -30,8 +30,8 @@ export async function changeMyPassword(currentPassword: string, newPassword: str
   return request<{ message: string }>('/api/me/password', { method: 'PATCH', headers: await authHeaders(), body: JSON.stringify({ currentPassword, newPassword }) });
 }
 
-export async function createMemberAccount(data: { name: string; email: string; password: string; ministryTeam: MinistryTeam }): Promise<DirectoryUser> {
-  return request<DirectoryUser>('/api/users', { method: 'POST', headers: await authHeaders(), body: JSON.stringify(data) });
+export async function createMemberAccount(data: { name: string; email: string; password: string; ministryTeam: MinistryTeam }): Promise<DirectoryUser & { emailSent?: boolean }> {
+  return request<DirectoryUser & { emailSent?: boolean }>('/api/users', { method: 'POST', headers: await authHeaders(), body: JSON.stringify(data) });
 }
 
 export async function updateMemberTeam(userId: string, choirId: string, ministryTeam: MinistryTeam) {

@@ -22,7 +22,9 @@ export function useMemberAccount(directory: Directory, setNotice: NoticeSetter, 
       const user = await createMemberAccount({ name: memberName.trim(), email: memberEmail.trim(), password: memberPassword, ministryTeam: memberTeam });
       directory.addUser(user);
       setMemberName(''); setMemberEmail(''); setMemberPassword(''); setMemberTeam('SINGERS');
-      setNotice({ type: 'success', text: `Account created for ${user.name}. Share the temporary password with them securely.` });
+      setNotice(user.emailSent
+        ? { type: 'success', text: `Account created. The email provider accepted the sign-in details for ${user.email}; ask them to check their inbox and spam folder.` }
+        : { type: 'error', text: `Account created for ${user.email}, but this server did not confirm an email was sent. Check that the backend is redeployed with email support and that its email-provider settings are configured.` });
     } catch (error) {
       setNotice({ type: 'error', text: error instanceof Error ? error.message : 'We could not create the account. Please try again.' });
     } finally { setBusy(false); }
