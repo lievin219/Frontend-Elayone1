@@ -8,7 +8,7 @@ type Management = ReturnType<typeof useMemberManagement>;
 
 export function MemberAccountForm({ management: m }: { management: Management }) {
   return <AdminForm title="Create a member account" icon="person-add-outline">
-    <Label style={styles.adminHelp}>Accounts are created by the ministry admin. Give the member their sign-in details securely.</Label>
+    <Label style={styles.adminHelp}>Create the account and choose a temporary password. The backend emails the sign-in link and details after the email service accepts the message.</Label>
     <Field label="MEMBER FULL NAME" value={m.memberName} onChangeText={m.setMemberName} placeholder="Full name" autoCapitalize="words" />
     <Field label="MEMBER EMAIL" value={m.memberEmail} onChangeText={m.setMemberEmail} placeholder="member@example.com" keyboardType="email-address" autoCapitalize="none" />
     <Field label="TEMPORARY PASSWORD" value={m.memberPassword} onChangeText={m.setMemberPassword} placeholder="At least 8 characters" secureTextEntry />

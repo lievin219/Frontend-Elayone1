@@ -7,15 +7,15 @@ starting this frontend alone will not start a server on port 4000.
 ## Run locally
 
 1. Install dependencies with `npm install`.
-2. Create a local file named `.env` in this folder and add the API's base URL:
+2. The frontend uses the deployed API at `https://backend-elayone.onrender.com` by default. To use a different API, create a local `.env.local` file in this folder and set:
 
    ```env
    VITE_API_URL=https://backend-elayone.onrender.com
    ```
 
-	Replace the value if your API has a different URL. `localhost` only works
-	when the API runs on the same computer as the browser. The `.env` file is
-	intentionally excluded from Git, so each clone must create its own local file.
+	Replace the value only if your API has a different URL. `.env.local` is
+	intentionally excluded from Git. Do not use `localhost` unless you have the API
+	running on your own computer.
 3. Start the frontend with `npm run start` and open the URL Vite prints (normally
 	`http://localhost:5173`).
 

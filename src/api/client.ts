@@ -1,6 +1,6 @@
 import type { Session } from './types';
 
-const API_URL = (import.meta.env.VITE_API_URL ?? 'http://localhost:4000').replace(/\/$/, '');
+const API_URL = (import.meta.env.VITE_API_URL?.trim() || 'https://backend-elayone.onrender.com').replace(/\/$/, '');
 const SESSION_KEY = import.meta.env.VITE_SESSION_KEY ?? 'elayone-session';
 export const SESSION_EXPIRED_EVENT = 'elayone:session-expired';
 
