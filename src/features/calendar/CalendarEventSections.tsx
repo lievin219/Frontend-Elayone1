@@ -1,6 +1,8 @@
 import type { Rehearsal, SongItem } from '../../types';
+import type { AttendanceResponseStatus } from '../../api';
 import type { CalendarEventCardProps } from './calendarTypes';
 import { CalendarEventList } from './CalendarEventList';
+import { formatEventDate } from './calendarDateUtils';
 
 type CalendarEventSectionsProps = {
   selectedDay: Date;
@@ -9,9 +11,9 @@ type CalendarEventSectionsProps = {
   songs: SongItem[];
   canManage: boolean;
   busyEventId: string | null;
-  localResponses: Record<string, 'YES' | 'MAYBE' | 'NO'>;
+  localResponses: Record<string, AttendanceResponseStatus>;
   onSaveSongs: CalendarEventCardProps['onSaveSongs'];
-  onRespond: (eventId: string, status: 'YES' | 'MAYBE' | 'NO') => void;
+  onRespond: (eventId: string, status: AttendanceResponseStatus) => void;
 };
 
 export function CalendarEventSections(props: CalendarEventSectionsProps) {
@@ -24,7 +26,7 @@ export function CalendarEventSections(props: CalendarEventSectionsProps) {
     onRespond: props.onRespond,
   };
   return <>
-    <CalendarEventList {...shared} title={props.selectedDay.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })} events={props.dayEvents} emptyText="Nothing scheduled for this day. Tap a marked date to view its events." />
+    <CalendarEventList {...shared} title={formatEventDate(props.selectedDay.toISOString())} events={props.dayEvents} emptyText="Nothing scheduled for this day. Tap a marked date to view its events." />
     <CalendarEventList {...shared} title="Coming up" events={props.upcomingEvents.slice(0, 12)} emptyText="No upcoming events have been scheduled." />
   </>;
 }

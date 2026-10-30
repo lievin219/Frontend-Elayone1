@@ -1,5 +1,6 @@
 import { Box, Label } from '../../components/WebUI';
 import { styles } from '../../theme';
+import type { AttendanceResponseStatus } from '../../api';
 import type { Rehearsal } from '../../types';
 import type { CalendarEventCardProps } from './calendarTypes';
 import { CalendarEmpty } from './CalendarEmpty';
@@ -10,7 +11,7 @@ type CalendarEventListProps = Pick<CalendarEventCardProps, 'songs' | 'canManage'
   events: Rehearsal[];
   busyEventId: string | null;
   responseFor: (event: Rehearsal) => CalendarEventCardProps['response'];
-  onRespond: (eventId: string, status: 'YES' | 'MAYBE' | 'NO') => void;
+  onRespond: (eventId: string, status: AttendanceResponseStatus) => void;
   emptyText: string;
 };
 

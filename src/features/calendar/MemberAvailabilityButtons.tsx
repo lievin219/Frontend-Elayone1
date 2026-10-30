@@ -12,15 +12,17 @@ export function MemberAvailabilityButtons({ event, response, busy, onRespond }: 
   return (
     <>
       <Label style={[styles.calendarPrompt, styles.calendarDarkPrompt]}>
-        {event.invitationOnly ? 'You have been invited. Choose your availability:' : 'Choose your availability for this event:'}
+        {response === 'PENDING'
+          ? event.invitationOnly ? 'You have been invited. Choose your availability:' : 'Choose your availability for this event:'
+          : 'Your availability response is recorded and cannot be changed.'}
       </Label>
-      <Box style={styles.calendarResponseButtons}>
-        {options.map((option) => <ActionButton key={option.value} disabled={busy} style={[styles.calendarResponseButton, styles.calendarDarkResponseButton, response === option.value && styles.calendarDarkResponseButtonActive]} onPress={() => onRespond(option.value)}>
-          {busy && response === option.value
+      {response === 'PENDING' && <Box style={styles.calendarResponseButtons}>
+        {options.map((option) => <ActionButton key={option.value} disabled={busy} style={[styles.calendarResponseButton, styles.calendarDarkResponseButton]} onPress={() => onRespond(option.value)}>
+          {busy
             ? <Spinner size="small" color="#111111" />
-            : <Label style={[styles.calendarResponseText, styles.calendarDarkResponseText, response === option.value && styles.calendarDarkResponseTextActive]}>{option.label}</Label>}
+            : <Label style={[styles.calendarResponseText, styles.calendarDarkResponseText]}>{option.label}</Label>}
         </ActionButton>)}
-      </Box>
+      </Box>}
     </>
   );
 }

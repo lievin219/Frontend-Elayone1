@@ -1,8 +1,16 @@
 import type { Session } from './types';
 
-const API_URL = (import.meta.env.VITE_API_URL?.trim() || 'https://backend-elayone.onrender.com').replace(/\/$/, '');
+const API_URL = (import.meta.env.VITE_API_URL?.trim() || 'https://api.elayonemusic.org').replace(/\/$/, '');
 const SESSION_KEY = import.meta.env.VITE_SESSION_KEY ?? 'elayone-session';
 export const SESSION_EXPIRED_EVENT = 'elayone:session-expired';
+
+export function resolveApiAssetUrl(pathOrUrl: string): string {
+  try {
+    return new URL(pathOrUrl, `${API_URL}/`).toString();
+  } catch {
+    return pathOrUrl;
+  }
+}
 
 async function safeStorageGet(key: string): Promise<string | null> {
   return window.localStorage.getItem(key);

@@ -2,6 +2,7 @@ import { Alert, Label, TextField, ActionButton, Box, Icon } from '../components/
 import React, { useEffect, useRef, useState } from 'react';
 import { COLORS, styles } from '../theme';
 import type { SongItem } from '../types';
+import { resolveApiAssetUrl } from '../api/client';
 
 function formatPlaybackTime(seconds: number) {
   if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
@@ -16,7 +17,7 @@ export function SongLibrary({ songs: songList }: { songs: SongItem[] }) {
   const [playbackTime, setPlaybackTime] = useState(0);
   const [playbackDuration, setPlaybackDuration] = useState(0);
   const [songQuery, setSongQuery] = useState('');
-  const soundRefs = useRef(new Map<string, HTMLAudioElement>());
+  const soundRefs = useRef(new Map<string, HTMLMediaElement>());
   const playingSongKeysRef = useRef(new Set<string>());
   const activeSongRef = useRef<string | null>(null);
 
@@ -25,6 +26,7 @@ export function SongLibrary({ songs: songList }: { songs: SongItem[] }) {
       audio.pause();
       audio.removeAttribute('src');
       audio.load();
+      if (audio instanceof HTMLVideoElement) audio.remove();
     });
     soundRefs.current.clear();
     playingSongKeysRef.current.clear();
@@ -52,25 +54,62 @@ export function SongLibrary({ songs: songList }: { songs: SongItem[] }) {
     }
 
     try {
-      const audio = currentAudio ?? new window.Audio(song.previewUrl);
-      soundRefs.current.set(songKey, audio);
+      const previewUrl = resolveApiAssetUrl(song.previewUrl);
+      let media = currentAudio;
+      if (!media) {
+        const extension = new URL(previewUrl).pathname.split('.').pop()?.toLowerCase();
+        if (extension === 'mp4') {
+          const video = document.createElement('video');
+          video.playsInline = true;
+          video.preload = 'metadata';
+          video.style.position = 'fixed';
+          video.style.width = '1px';
+          video.style.height = '1px';
+          video.style.opacity = '0';
+          video.style.pointerEvents = 'none';
+          document.body.appendChild(video);
+          media = video;
+        } else {
+          const audio = new window.Audio();
+          audio.preload = 'metadata';
+          media = audio;
+        }
+        media.src = previewUrl;
+        soundRefs.current.set(songKey, media);
+      } else if (media.src !== previewUrl) {
+        media.src = previewUrl;
+        media.load();
+      }
+
+      const mediaElement = media;
       activeSongRef.current = songKey;
       setActiveSong(songKey);
-      setPlaybackTime(audio.currentTime);
-      setPlaybackDuration(Number.isFinite(audio.duration) ? audio.duration : 0);
-      audio.ontimeupdate = () => {
-        if (activeSongRef.current === songKey) setPlaybackTime(audio.currentTime);
+      setPlaybackTime(mediaElement.currentTime);
+      setPlaybackDuration(Number.isFinite(mediaElement.duration) ? mediaElement.duration : 0);
+      mediaElement.ontimeupdate = () => {
+        if (activeSongRef.current === songKey) setPlaybackTime(mediaElement.currentTime);
       };
-      audio.ondurationchange = () => {
+      mediaElement.ondurationchange = () => {
         if (activeSongRef.current === songKey) {
-          setPlaybackDuration(audio.duration);
+          setPlaybackDuration(mediaElement.duration);
         }
       };
-      audio.onended = () => {
-        if (soundRefs.current.get(songKey) === audio) {
+      mediaElement.onerror = () => {
+        playingSongKeysRef.current.delete(songKey);
+        setPlayingSongKeys([...playingSongKeysRef.current]);
+        if (activeSongRef.current === songKey) {
+          const errorCode = mediaElement.error?.code;
+          const detail = errorCode === MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED
+            ? 'The preview format is not supported or the link is not a direct audio/video file.'
+            : 'The media server could not provide this file. Check the preview URL and Storage permissions.';
+          Alert.alert('Playback unavailable', detail);
+        }
+      };
+      mediaElement.onended = () => {
+        if (soundRefs.current.get(songKey) === mediaElement) {
           playingSongKeysRef.current.delete(songKey);
           setPlayingSongKeys([...playingSongKeysRef.current]);
-          audio.currentTime = 0;
+          mediaElement.currentTime = 0;
         }
         if (songKey === activeSongRef.current) {
           setPlaybackTime(0);
@@ -78,13 +117,14 @@ export function SongLibrary({ songs: songList }: { songs: SongItem[] }) {
       };
       playingSongKeysRef.current.add(songKey);
       setPlayingSongKeys([...playingSongKeysRef.current]);
-      await audio.play();
-    } catch {
+      await mediaElement.play();
+    } catch (error: unknown) {
       const playbackWasStillRequested = playingSongKeysRef.current.has(songKey);
       playingSongKeysRef.current.delete(songKey);
       setPlayingSongKeys([...playingSongKeysRef.current]);
       if (playbackWasStillRequested) {
-        Alert.alert('Playback unavailable', 'This song preview could not be played right now.');
+        const detail = error instanceof Error ? error.message : 'The browser could not start this preview.';
+        Alert.alert('Playback unavailable', detail);
       }
     }
   }

@@ -87,8 +87,10 @@ export function AppPageContent() {
           return updatedSongs;
         }}
         onRespond={async (eventId, status) => {
-          await updateAttendance(choirId, eventId, status);
-          await ministry.refreshEvents();
+          const savedResponse = await updateAttendance(choirId, eventId, status);
+          ministry.setRehearsals((current) => current.map((event) => (
+            event.id === eventId ? { ...event, myStatus: savedResponse.status } : event
+          )));
         }}
       />
     );

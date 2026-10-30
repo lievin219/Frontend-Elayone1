@@ -6,13 +6,31 @@ import type { EventSubmit } from './eventTypes';
 const choirId = 'elayone-main-choir';
 const fail = (set: EventSubmit['setNotice'], text: string) => set({ type: 'error', text });
 
+function normalizeEventDate(value: string): string | null {
+  const compact = /^(\d{4})(\d{2})(\d{2})$/.exec(value.trim());
+  const separated = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value.trim());
+  const match = compact ?? separated;
+  if (!match) return null;
+
+  const [, yearText, monthText, dayText] = match;
+  const year = Number(yearText);
+  const month = Number(monthText);
+  const day = Number(dayText);
+  const parsed = new Date(Date.UTC(year, month - 1, day));
+  if (parsed.getUTCFullYear() !== year || parsed.getUTCMonth() !== month - 1 || parsed.getUTCDate() !== day) return null;
+
+  return `${yearText}-${monthText}-${dayText}`;
+}
+
 export async function scheduleMinistryEvent({ draft: d, songs, onAdded, setNotice, setBusy }: EventSubmit) {
   if (![d.eventTitle, d.eventLocation, d.eventDate, d.eventStartTime, d.eventEndTime].every((value) => value.trim())) return fail(setNotice, 'Add the event title, location, date, start time, and end time before saving.');
   if (d.eventType === 'CUSTOM' && !d.customEventType.trim()) return fail(setNotice, 'Enter a name for the custom event type before saving.');
+  const eventDate = normalizeEventDate(d.eventDate);
+  if (!eventDate) return fail(setNotice, 'Enter a valid date as YYYY-MM-DD or YYYYMMDD (for example, 2026-12-19 or 20261219).');
   const count = Number(d.recurrenceCount);
   if (!Number.isInteger(count) || count < 1 || count > 52) return fail(setNotice, 'Choose between 1 and 52 occurrences.');
-  const startsAt = new Date(`${d.eventDate}T${d.eventStartTime}:00`);
-  const endsAt = new Date(`${d.eventDate}T${d.eventEndTime}:00`);
+  const startsAt = new Date(`${eventDate}T${d.eventStartTime}:00`);
+  const endsAt = new Date(`${eventDate}T${d.eventEndTime}:00`);
   if (Number.isNaN(startsAt.getTime()) || Number.isNaN(endsAt.getTime()) || endsAt <= startsAt) return fail(setNotice, 'Enter a valid date and time, and make sure the end time is after the start time.');
   if (d.inviteMode === 'SELECTED' && !d.selectedInviteeIds.length) return fail(setNotice, 'Choose at least one ministry member, or select Whole ministry.');
   const songIds = d.selectedSongIds.filter((id) => songs.some((song) => song.id === id));

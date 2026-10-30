@@ -10,7 +10,7 @@ starting this frontend alone will not start a server on port 4000.
 2. The frontend uses the deployed API at `https://backend-elayone.onrender.com` by default. To use a different API, create a local `.env.local` file in this folder and set:
 
    ```env
-   VITE_API_URL=https://backend-elayone.onrender.com
+   VITE_API_URL=https://api.elayonemusic.org
    ```
 
 	Replace the value only if your API has a different URL. `.env.local` is

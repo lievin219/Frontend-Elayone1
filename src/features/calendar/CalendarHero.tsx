@@ -2,6 +2,7 @@ import { ActionButton, Box, Icon, Label } from '../../components/WebUI';
 import { styles } from '../../theme';
 import type { Rehearsal } from '../../types';
 import { GoogleCalendarButton } from './GoogleCalendarButton';
+import { formatEventDate, formatEventTime } from './calendarDateUtils';
 
 type CalendarHeroProps = {
   nextEvent: Rehearsal | null;
@@ -39,7 +40,7 @@ function NextGathering({ event, canManage, onShowEvent }: NextGatheringProps) {
       <Label style={styles.calendarHeroNextLabel}>{event ? 'NEXT EVENT' : 'NO UPCOMING EVENT'}</Label>
       <Label style={styles.calendarHeroNextTitle}>{event?.title ?? 'No gathering scheduled yet'}</Label>
       <Label style={styles.calendarHeroNextMeta}>
-        {event ? `${new Date(event.startsAt).toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })} · ${new Date(event.startsAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} · ${event.location}` : canManage ? 'Add an event so everyone knows what is next.' : 'Your next event will appear here.'}
+        {event ? `${formatEventDate(event.startsAt)} · ${formatEventTime(event.startsAt)} · ${event.location}` : canManage ? 'Add an event so everyone knows what is next.' : 'Your next event will appear here.'}
       </Label>
       {event && <Box style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
         <ActionButton style={styles.calendarHeroAction} onPress={() => onShowEvent(event)}>

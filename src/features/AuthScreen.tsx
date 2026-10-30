@@ -47,8 +47,10 @@ export function AuthScreen({ onAuthenticated }: { onAuthenticated: (session: Ses
             <Box style={styles.authFeatureVerse}>
               <Icon name="book-outline" size={18} color="#ffffff" />
               <Box style={{ flex: 1 }}>
-                <Label style={styles.authFeatureVerseText}>“See, I am doing a new thing! Now it springs up; do you not perceive it?”</Label>
-                <Label style={styles.authFeatureVerseReference}>ISAIAH 43:19</Label>
+                <Label style={styles.authFeatureVerseText}>“Let the whole world know and live for Jesus Christ”</Label>
+                <Label style={styles.authFeatureVerseReference}>Matthew 28: 19-20
+
+</Label>
               </Box>
             </Box>
           </Box>

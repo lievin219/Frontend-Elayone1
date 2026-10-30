@@ -57,6 +57,10 @@ export async function updateRehearsalSongs(choirId: string, rehearsalId: string,
   return result.songs;
 }
 
-export async function updateAttendance(choirId: string, rehearsalId: string, status: 'YES' | 'MAYBE' | 'NO') {
-  return request(`/api/choirs/${choirId}/rehearsals/${rehearsalId}/attendance`, { method: 'POST', headers: await authHeaders(), body: JSON.stringify({ status }) });
+export async function updateAttendance(choirId: string, rehearsalId: string, status: AttendanceResponseStatus) {
+  return request<{ id?: string; rehearsalId: string; userId: string; status: AttendanceResponseStatus }>(`/api/choirs/${choirId}/rehearsals/${rehearsalId}/attendance`, {
+    method: 'POST',
+    headers: await authHeaders(),
+    body: JSON.stringify({ status }),
+  });
 }

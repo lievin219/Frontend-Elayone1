@@ -10,7 +10,7 @@ export type CalendarScreenProps = {
   onRefresh: () => Promise<void>;
   onEventCreated: (event: RehearsalRecord) => void;
   onSaveSongs: (eventId: string, songIds: string[]) => Promise<EventSongRecord[]>;
-  onRespond: (eventId: string, status: 'YES' | 'MAYBE' | 'NO') => Promise<void>;
+  onRespond: (eventId: string, status: AttendanceResponseStatus) => Promise<void>;
 };
 
 export type CalendarEventCardProps = {
@@ -20,7 +20,7 @@ export type CalendarEventCardProps = {
   response: AttendanceResponseStatus;
   busy: boolean;
   onSaveSongs: (eventId: string, songIds: string[]) => Promise<EventSongRecord[]>;
-  onRespond: (status: 'YES' | 'MAYBE' | 'NO') => void;
+  onRespond: (status: AttendanceResponseStatus) => void;
 };
 
 export type EventDraft = {
