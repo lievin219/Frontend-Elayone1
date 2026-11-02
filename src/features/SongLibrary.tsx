@@ -11,8 +11,28 @@ function formatPlaybackTime(seconds: number) {
   return `${minutes}:${remainingSeconds}`;
 }
 
+function getYouTubeVideoId(value?: string | null) {
+  if (!value) return null;
+  try {
+    const url = new URL(value);
+    const host = url.hostname.toLowerCase().replace(/^www\./, '');
+    let videoId: string | null = null;
+    if (host === 'youtu.be') videoId = url.pathname.split('/').filter(Boolean)[0] ?? null;
+    else if (host === 'youtube.com' || host === 'm.youtube.com' || host === 'music.youtube.com') {
+      if (url.pathname === '/watch') videoId = url.searchParams.get('v');
+      else if (url.pathname.startsWith('/shorts/') || url.pathname.startsWith('/live/') || url.pathname.startsWith('/embed/')) {
+        videoId = url.pathname.split('/')[2] ?? null;
+      }
+    }
+    return videoId && /^[A-Za-z0-9_-]{11}$/.test(videoId) ? videoId : null;
+  } catch {
+    return null;
+  }
+}
+
 export function SongLibrary({ songs: songList }: { songs: SongItem[] }) {
   const [activeSong, setActiveSong] = useState<string | null>(null);
+  const [youtubeVideoId, setYoutubeVideoId] = useState<string | null>(null);
   const [playingSongKeys, setPlayingSongKeys] = useState<string[]>([]);
   const [playbackTime, setPlaybackTime] = useState(0);
   const [playbackDuration, setPlaybackDuration] = useState(0);
@@ -40,6 +60,32 @@ export function SongLibrary({ songs: songList }: { songs: SongItem[] }) {
 
     const songKey = song.id ?? song.title;
     const currentAudio = soundRefs.current.get(songKey);
+    const youtubeId = getYouTubeVideoId(song.previewUrl);
+
+    if (youtubeId) {
+      if (playingSongKeysRef.current.has(songKey)) {
+        playingSongKeysRef.current.delete(songKey);
+        setPlayingSongKeys([...playingSongKeysRef.current]);
+        if (activeSongRef.current === songKey) {
+          setYoutubeVideoId(null);
+          setPlaybackTime(0);
+        }
+        return;
+      }
+      if (playingSongKeysRef.current.size >= 2) {
+        Alert.alert('Two previews are already playing', 'Pause one of the playing songs before starting another.');
+        return;
+      }
+      currentAudio?.pause();
+      activeSongRef.current = songKey;
+      setActiveSong(songKey);
+      setYoutubeVideoId(youtubeId);
+      playingSongKeysRef.current.add(songKey);
+      setPlayingSongKeys([...playingSongKeysRef.current]);
+      return;
+    }
+
+    setYoutubeVideoId(null);
 
     if (currentAudio && playingSongKeysRef.current.has(songKey)) {
       currentAudio.pause();
@@ -165,9 +211,21 @@ export function SongLibrary({ songs: songList }: { songs: SongItem[] }) {
           {playerSong && (
             <Box className="song-player">
               <Box className="song-player-art" aria-hidden="true">
-                <Box className="song-player-record" />
-                <Label className="song-player-art-label">ELAYONE<br />SINGERS</Label>
-                <Label className="song-player-art-index">SIDE A · {String(songList.indexOf(playerSong) + 1).padStart(2, '0')}</Label>
+                {youtubeVideoId && activeSong === (playerSong.id ?? playerSong.title) ? (
+                  <iframe
+                    className="song-youtube-player"
+                    src={`https://www.youtube-nocookie.com/embed/${youtubeVideoId}?autoplay=1&rel=0`}
+                    title={`${playerSong.title} YouTube preview`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                ) : (
+                  <>
+                    <Box className="song-player-record" />
+                    <Label className="song-player-art-label">ELAYONE<br />SINGERS</Label>
+                    <Label className="song-player-art-index">SIDE A · {String(songList.indexOf(playerSong) + 1).padStart(2, '0')}</Label>
+                  </>
+                )}
               </Box>
               <Box className="song-player-details">
                 <Label className="song-player-eyebrow">{playingSongKeys.includes(activeSong ?? '') ? 'NOW PLAYING' : activeSong ? 'PAUSED' : 'A SONG FOR THE JOURNEY'}</Label>

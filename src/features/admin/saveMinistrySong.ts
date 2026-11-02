@@ -1,5 +1,5 @@
 import { Alert } from '../../components/WebUI';
-import { createSong } from '../../api';
+import { createSong, uploadSongDirectly } from '../../api';
 import type { SongItem } from '../../types';
 import type { BusyState, NoticeSetter } from './adminTypes';
 
@@ -15,7 +15,8 @@ export async function saveMinistrySong(input: Input) {
   }
   setBusy(true); setNotice(null);
   try {
-    const created = await createSong(choirId, { title: title.trim(), key: key.trim() || undefined, status, previewUrl: media ? undefined : previewUrl.trim() || undefined, notes: notes.trim() || undefined, media: media ?? undefined });
+    const uploadedPreviewUrl = media ? await uploadSongDirectly(choirId, media) : undefined;
+    const created = await createSong(choirId, { title: title.trim(), key: key.trim() || undefined, status, previewUrl: uploadedPreviewUrl ?? (previewUrl.trim() || undefined), notes: notes.trim() || undefined });
     onAdded({ ...created, key: created.key ?? (key.trim() || null), status: created.status ?? status, notes: created.notes ?? null, previewUrl: created.previewUrl ?? (previewUrl.trim() || null), icon: created.status === 'LEARN' ? 'book-outline' : 'musical-notes-outline' });
     clear(); setNotice({ type: 'success', text: 'Song saved successfully and added to the library.' });
   } catch (error) {
