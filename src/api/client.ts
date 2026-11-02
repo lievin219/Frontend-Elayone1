@@ -36,7 +36,13 @@ function tokenExpiresAt(token: string): number | null {
 export async function getStoredSession(): Promise<Session | null> {
   const value = await safeStorageGet(SESSION_KEY);
   if (!value) return null;
-  const session = JSON.parse(value) as Session;
+  let session: Session;
+  try {
+    session = JSON.parse(value) as Session;
+  } catch {
+    await signOut();
+    return null;
+  }
   const expiresAt = tokenExpiresAt(session.token);
   if (!expiresAt || expiresAt <= Date.now()) {
     await signOut();
@@ -47,6 +53,7 @@ export async function getStoredSession(): Promise<Session | null> {
 
 export async function signOut(): Promise<void> {
   await safeStorageDelete(SESSION_KEY);
+  window.dispatchEvent(new Event(SESSION_EXPIRED_EVENT));
 }
 
 export function getSessionExpiry(session: Session): number | null {
@@ -75,7 +82,7 @@ export async function request<T>(path: string, options: RequestInit = {}): Promi
   const body = await response.json().catch(() => ({}));
   if (response.status === 401 && new Headers(options.headers).has('Authorization')) {
     await signOut();
-    window.dispatchEvent(new Event(SESSION_EXPIRED_EVENT));
+    return Promise.reject(new Error('Your session has expired. Please sign in again.'));
   }
   if (!response.ok) throw new Error(body.message ?? 'Something went wrong. Please try again.');
   return body as T;
